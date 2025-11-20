@@ -1,0 +1,106 @@
+# ---------------------------------------------
+# STUDENT MANAGEMENT SYSTEM (Beginner Friendly)
+# ---------------------------------------------
+
+students = []   # list to store all student records
+
+
+# Function to add a new student
+def add_student():
+    print("\n--- Add Student ---")
+    name = input("Enter student name: ")
+    regno = input("Enter register number: ")
+    marks = float(input("Enter marks: "))
+
+    student = {
+        "name": name,
+        "regno": regno,
+        "marks": marks
+    }
+    students.append(student)
+    print("Student added successfully!\n")
+
+
+# Function to display all students
+def display_students():
+    print("\n--- Student Details ---")
+    if len(students) == 0:
+        print("No students found.\n")
+        return
+
+    for i, std in enumerate(students, start=1):
+        print(f"{i}. Name: {std['name']}, Reg No: {std['regno']}, Marks: {std['marks']}")
+    print()
+
+
+# Function to search for a student by register number
+def search_student():
+    print("\n--- Search Student ---")
+    regno = input("Enter register number: ")
+
+    for std in students:
+        if std["regno"] == regno:
+            print("Student Found!")
+            print(f"Name: {std['name']}, Marks: {std['marks']}\n")
+            return
+
+    print("Student Not Found!\n")
+
+
+# Function to save data into a file
+def save_to_file():
+    print("\n--- Saving to file ---")
+    with open("students.txt", "w") as file:
+        for std in students:
+            file.write(f"{std['name']} | {std['regno']} | {std['marks']}\n")
+    print("Data saved to students.txt\n")
+
+
+# Function to load data from file
+def load_from_file():
+    print("\n--- Loading data from file ---")
+    try:
+        with open("students.txt", "r") as file:
+            for line in file:
+                name, regno, marks = line.strip().split(" | ")
+                students.append({
+                    "name": name,
+                    "regno": regno,
+                    "marks": float(marks)
+                })
+        print("Data loaded successfully!\n")
+    except FileNotFoundError:
+        print("No previous data found.\n")
+
+
+# Main Menu
+def main():
+    load_from_file()
+
+    while True:
+        print("===== STUDENT MANAGEMENT MENU =====")
+        print("1. Add Student")
+        print("2. Display Students")
+        print("3. Search Student")
+        print("4. Save to File")
+        print("5. Exit\n")
+
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            add_student()
+        elif choice == "2":
+            display_students()
+        elif choice == "3":
+            search_student()
+        elif choice == "4":
+            save_to_file()
+        elif choice == "5":
+            print("Exiting Program... Goodbye!")
+            break
+        else:
+            print("Invalid Choice! Try again.\n")
+
+
+# Run the program
+main()
